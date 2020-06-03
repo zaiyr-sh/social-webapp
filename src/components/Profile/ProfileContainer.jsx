@@ -3,7 +3,7 @@ import { withRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import Profile from './Profile';
-import { setUserProfileActionCreator, getUserProfileThunkCreator } from '../../redux/profile-reducer';
+import { setUserProfileActionCreator, getUserProfileThunkCreator, getUserStatusThunkCreator, updateUserStatusThunkCreator } from '../../redux/profile-reducer';
 import { withAuthRedirect } from '../../hoc/withAuthRedirect';
 import { compose } from 'redux';
 
@@ -12,18 +12,21 @@ class ProfileContainer extends React.Component{
 
     componentDidMount() {
         let userId = this.props.match.params.userId;
-        if (!userId) userId = 2;
+        if (!userId) userId = 5636;
         // usersAPI.getProfile(userId)
         //     .then(response => {
         //         this.props.setUsersProfile(response.data);
         //     });
         this.props.getUserProfileThunk(userId);
+        // setTimeout(() => {
+            this.props.getUserStatusThunk(userId);
+        // }, 1000)
     }
 
     render() {
         return (
             <div>
-               <Profile {...this.props} profile={this.props.profile} />
+               <Profile {...this.props} profile={this.props.profile} status={this.props.status} updateStatus={this.props.updateUserStatusThunk}/>
             </div>
         );
     }
@@ -34,6 +37,7 @@ class ProfileContainer extends React.Component{
 
 let mapStateToProps = (state) => ({
     profile: state.profilePage.profile,
+    status: state.profilePage.status
 }) // () --> объект со свойством , {} --> тело функции
 
 let mapDispatchToProps = (dispatch) => {
@@ -43,6 +47,12 @@ let mapDispatchToProps = (dispatch) => {
         // }
         getUserProfileThunk: (userId) => {
             dispatch(getUserProfileThunkCreator(userId))
+        },
+        getUserStatusThunk: (userId) => {
+            dispatch(getUserStatusThunkCreator(userId))
+        },
+        updateUserStatusThunk: (status) => {
+            dispatch(updateUserStatusThunkCreator(status))
         }
     }
 }

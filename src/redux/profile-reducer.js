@@ -1,8 +1,9 @@
-import { usersAPI } from "../api/api";
+import { usersAPI, profileAPI } from "../api/api";
 
 const ADD_POST = "ADD-POST";
 const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
 const SET_USER_PROFILE = "SET-USER-PROFILE";
+const SET_STATUS = "SET-STATUS";
 
 let initialState = {
     postsData: [
@@ -10,7 +11,8 @@ let initialState = {
         {id: 2, message: 'It\'s my post', likesCount: 12},
     ],
     newPostText: 'IT Courses',
-    profile: null
+    profile: null,
+    status: ""
 };
 
 const profileReducer = (state = initialState, action) => {
@@ -31,6 +33,11 @@ const profileReducer = (state = initialState, action) => {
                 ...state,
                 newPostText: action.newText
             } //создаем копию state
+        case SET_STATUS:
+            return {
+                ...state,
+                status: action.status
+            }
         case SET_USER_PROFILE:
             return {
                 ...state,
@@ -44,6 +51,7 @@ const profileReducer = (state = initialState, action) => {
 export const addPostActionCreator = () => ({ type: ADD_POST })
 export const updatePostActionCreator = (acceptingPostMessage) => 
     ({ type: UPDATE_NEW_POST_TEXT, newText: acceptingPostMessage })
+
 export const setUserProfileActionCreator = (profile) => ({type: SET_USER_PROFILE, profile })
 export const getUserProfileThunkCreator = (userId) => (dispatch) => {
     usersAPI.getProfile(userId)
@@ -51,5 +59,21 @@ export const getUserProfileThunkCreator = (userId) => (dispatch) => {
                 dispatch(setUserProfileActionCreator(response.data));
             });
 } // Thunk creator - ф-я, которая возвращает Thunk. Thunk - это ф-я, которая принимает dispatch и делает внутри асинхронные операции и различные мелкие actions
+
+export const setUserStatusActionCreator = (status) => ({type: SET_STATUS, status})
+export const getUserStatusThunkCreator = (userId) => (dispatch) => {
+    profileAPI.getStatus(userId)
+            .then(response => {
+                dispatch(setUserStatusActionCreator(response.data));
+            });
+}
+export const updateUserStatusThunkCreator = (status) => (dispatch) => {
+    profileAPI.updateStatus(status)
+            .then(response => {
+                if(response.data.resultCode === 0){
+                    dispatch(setUserStatusActionCreator(status));
+                }
+            });
+}
 
 export default profileReducer;
