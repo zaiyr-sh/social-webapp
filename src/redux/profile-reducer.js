@@ -1,7 +1,7 @@
 import { usersAPI, profileAPI } from "../api/api";
 
 const ADD_POST = "ADD-POST";
-const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
+// const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
 const SET_USER_PROFILE = "SET-USER-PROFILE";
 const SET_STATUS = "SET-STATUS";
 
@@ -10,7 +10,7 @@ let initialState = {
         {id: 1, message: 'Hi, how are you?', likesCount: 0},
         {id: 2, message: 'It\'s my post', likesCount: 12},
     ],
-    newPostText: 'IT Courses',
+    // newPostText: 'IT Courses',
     profile: null,
     status: ""
 };
@@ -20,19 +20,19 @@ const profileReducer = (state = initialState, action) => {
         case ADD_POST:
             let newPost = {
                 id: 5,
-                message: state.newPostText,
+                message: action.newPostText,
                 likesCount: 7
             };
             return {
                 ...state,
                 postsData: [...state.postsData, newPost], //создаем копию postsData и пушим новый пост в копию
-                newPostText: ""
+                // newPostText: ""
             }; //создаем копию state, т.к ф-я должна быть чистой
-        case UPDATE_NEW_POST_TEXT:
-            return {
-                ...state,
-                newPostText: action.newText
-            } //создаем копию state
+        // case UPDATE_NEW_POST_TEXT:
+        //     return {
+        //         ...state,
+        //         newPostText: action.newText
+        //     } //создаем копию state
         case SET_STATUS:
             return {
                 ...state,
@@ -48,9 +48,9 @@ const profileReducer = (state = initialState, action) => {
     }
 }
 
-export const addPostActionCreator = () => ({ type: ADD_POST })
-export const updatePostActionCreator = (acceptingPostMessage) => 
-    ({ type: UPDATE_NEW_POST_TEXT, newText: acceptingPostMessage })
+export const addPostActionCreator = (newPostText) => ({ type: ADD_POST, newPostText })
+// export const updatePostActionCreator = (acceptingPostMessage) => 
+//     ({ type: UPDATE_NEW_POST_TEXT, newText: acceptingPostMessage })
 
 export const setUserProfileActionCreator = (profile) => ({type: SET_USER_PROFILE, profile })
 export const getUserProfileThunkCreator = (userId) => (dispatch) => {

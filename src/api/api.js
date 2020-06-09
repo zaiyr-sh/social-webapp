@@ -12,18 +12,20 @@ export const usersAPI = {
     getUsers(currentPage = 1, pageSize = 10) {
         return axiosInstance
             .get(
-                `users?page=${currentPage}&count=${pageSize}`)
-                .then(response => response.data);
+                `users?page=${currentPage}&count=${pageSize}`
+            ).then(response => response.data);
     },
     postFollowUser(userId) {
         return axiosInstance
             .post(
-                `follow/${userId}`);
+                `follow/${userId}`
+            );
     },
     deleteUnfollowUser(userId) {
         return axiosInstance
             .delete(
-                `follow/${userId}`);
+                `follow/${userId}`
+            );
     },
     getProfile(userId){
         console.warn("Obsolete method. Please use profileAPI object")
@@ -47,7 +49,8 @@ export const profileAPI = {
     updateStatus(status){
         return axiosInstance
             .put(
-                `profile/status`, { status }
+                `profile/status`, 
+                { status }
             )
     }
 }
@@ -58,6 +61,19 @@ export const authAPI = {
             .get(
                 `auth/me`
             );
-    }
+    },
+    login(email, password, rememberMe = false) {
+        return axiosInstance
+            .post(
+                `auth/login`, 
+                { email, password, rememberMe }
+            );
+    },
+    logout() {
+        return axiosInstance
+            .delete(
+                `auth/login`, 
+            );
+    }  
 }
  

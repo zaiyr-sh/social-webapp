@@ -8,6 +8,7 @@ import { usersAPI } from '../../api/api';
 import { withAuthRedirect } from '../../hoc/withAuthRedirect';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
+import { getPageSize, getUsers, getTotalUsersCount, getCurrentPage, getIsFetching, getIsFollowingInProgress } from '../../redux/users-selectors';
 
 class UsersContainer extends React.Component {
 	componentDidMount() {
@@ -35,14 +36,25 @@ class UsersContainer extends React.Component {
 	}
 }
 
+// let mapStateToProps = (state) => {
+//     return {
+//         users: state.usersPage.users,
+//         pageSize: state.usersPage.pageSize,
+//         totalUsersCount: state.usersPage.totalUsersCount,
+//         currentPage: state.usersPage.currentPage,
+//         isFetching: state.usersPage.isFetching,
+//         isFollowingInProgress: state.usersPage.isFollowingInProgress
+//     }
+// }
+
 let mapStateToProps = (state) => {
     return {
-        users: state.usersPage.users,
-        pageSize: state.usersPage.pageSize,
-        totalUsersCount: state.usersPage.totalUsersCount,
-        currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching,
-        isFollowingInProgress: state.usersPage.isFollowingInProgress
+        users: getUsers(state),
+        pageSize: getPageSize(state),
+        totalUsersCount: getTotalUsersCount(state),
+        currentPage: getCurrentPage(state),
+        isFetching: getIsFetching(state),
+        isFollowingInProgress: getIsFollowingInProgress(state)
     }
 }
 
