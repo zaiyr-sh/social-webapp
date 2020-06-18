@@ -8,27 +8,27 @@ import { Textarea } from '../../common/FormsControls/FormsControls';
 const maxLength10 = maxLengthThunkCreator(10);
 const minLength10 = minLengthThunkCreator(1);
 
-const MyPosts = (props) => {
+let MyPosts = React.memo(props => {
 
-	let postsElement = props.posts
-		.map(p => <Post message={p.message} likesCount={p.likesCount}/>)
-	
-	// let newPostElement = React.createRef();
+		let postsElement = props.posts
+			.map((p, index) => <Post key={index} message={p.message} likesCount={p.likesCount}/>)
+		
+		// let newPostElement = React.createRef();
 
-	// let onAddPost = () => {
-	// 	props.addPost();
-	// }
+		// let onAddPost = () => {
+		// 	props.addPost();
+		// }
 
-	// let onPostChange = () => {
-	// 	let acceptingPostMessage = newPostElement.current.value;
-	// 	props.updatePostText(acceptingPostMessage);
-	// }
+		// let onPostChange = () => {
+		// 	let acceptingPostMessage = newPostElement.current.value;
+		// 	props.updatePostText(acceptingPostMessage);
+		// }
 
-	let addNewPost = (values) => {
-		props.addPost(values.newPostText);
-	}
+		let addNewPost = (values) => {
+			props.addPost(values.newPostText);
+		}
 
-	return (
+		return (
 			<div className={s.postsBlock}>
 				<h3>My posts</h3>
 				<AddNewPostFormRedux onSubmit={addNewPost}/>
@@ -36,8 +36,8 @@ const MyPosts = (props) => {
 					{postsElement}
 				</div>
 			</div>
-	);
-};
+		);
+})
 
 const AddNewPostForm = (props) => {
 	return (

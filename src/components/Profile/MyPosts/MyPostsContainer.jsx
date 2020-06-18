@@ -1,4 +1,4 @@
-import { addPostActionCreator, updatePostActionCreator } from '../../../redux/profile-reducer';
+import { addPostActionCreator } from '../../../redux/profile-reducer';
 import MyPosts from './MyPosts';
 // import StoreContext from '../../../StoreContext';
 import { connect } from 'react-redux';
@@ -6,9 +6,9 @@ import { connect } from 'react-redux';
 // const MyPostsContainer = (props) => {
 // 	// let state = props.store.getState();
 
-// 	// let addPost = () => {
-// 	// 	props.store.dispatch(addPostActionCreator());
-// 	// };
+	// let addPost = () => {
+	// 	props.store.dispatch(addPostActionCreator());
+	// };
 
 // 	// let onPostChange = (acceptingPostMessage) => {
 // 	// 	props.store.dispatch(updatePostActionCreator(acceptingPostMessage));

@@ -86,41 +86,35 @@ export const toggleIsFetchingActionCreator = (isFetching) => ({type: TOGGLE_IS_F
 export const toggleIsFollowingInProgressActionCreator = (isFetching, userId) => ({type: TOGGLE_IS_FOLLOWING_IN_PROGRESS, isFetching, userId })
 
 export const getUsersThunkCreator = (currentPage, pageSize) => {
-    return (dispatch) => {
+    return async (dispatch) => {
         dispatch(toggleIsFetchingActionCreator(true));
         dispatch(setCurrentPageActionCreator(currentPage));
-            usersAPI.getUsers(currentPage, pageSize)
-                .then((data) => {
+            let response = await usersAPI.getUsers(currentPage, pageSize)
                     dispatch(toggleIsFetchingActionCreator(false));
-                    dispatch(setUsersActionCreator(data.items));
-                    dispatch(setTotalUsersCountActionCreator(data.totalCount));
-                });
+                    dispatch(setUsersActionCreator(response.items));
+                    dispatch(setTotalUsersCountActionCreator(response.totalCount));
     }
 }
 
 export const postFollowThunkCreator = (userId) => {
-    return (dispatch) => {
+    return async (dispatch) => {
         dispatch(toggleIsFollowingInProgressActionCreator(true, userId));
-        usersAPI.postFollowUser(userId)
-            .then((response) => {
+        let response = await usersAPI.postFollowUser(userId)
                 if (response.data.resultCode === 0) {
                     dispatch(followActionCreator(userId));
                 }
                 dispatch(toggleIsFollowingInProgressActionCreator(false, userId));
-            });
     }
 }
 
 export const deleteUnfollowThunkCreator = (userId) => {
-    return (dispatch) => {
+    return async (dispatch) => {
     dispatch(toggleIsFollowingInProgressActionCreator(true, userId));
-    usersAPI.deleteUnfollowUser(userId)
-        .then((response) => {
+    let response = await usersAPI.deleteUnfollowUser(userId)
             if (response.data.resultCode === 0) {
                 dispatch(unfollowActionCreator(userId));
             }
             dispatch(toggleIsFollowingInProgressActionCreator(false, userId));
-        });
     }
 }
 

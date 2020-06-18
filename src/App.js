@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter, Route, withRouter } from 'react-router-dom';
+import {Route, withRouter } from 'react-router-dom';
 
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
@@ -9,7 +9,6 @@ import ProfileContainer from './components/Profile/ProfileContainer';
 import HeaderContainer from './components/Header/HeaderContainer';
 import Login from './components/Login/Login';
 import { connect } from 'react-redux';
-import { getAuthUserDataThunkCreator } from './redux/auth-reducer';
 import { compose } from 'redux';
 import { initializeAppThunkCreator } from './redux/app-reducer';
 import Preloader from './components/common/Preloader/Preloader';

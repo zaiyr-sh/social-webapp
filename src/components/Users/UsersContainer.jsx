@@ -2,13 +2,11 @@ import React, { Fragment } from  'react';
 import { connect } from 'react-redux';
 
 import Users from './Users';
-import { followActionCreator, unfollowActionCreator, setUsersActionCreator, setCurrentPageActionCreator, setTotalUsersCountActionCreator, toggleIsFetchingActionCreator, toggleIsFollowingInProgressActionCreator, getUsersThunkCreator, postFollowThunkCreator, deleteUnfollowThunkCreator } from '../../redux/users-reducer';
+import { setCurrentPageActionCreator, toggleIsFollowingInProgressActionCreator, getUsersThunkCreator, postFollowThunkCreator, deleteUnfollowThunkCreator } from '../../redux/users-reducer';
 import Preloader from '../common/Preloader/Preloader';
-import { usersAPI } from '../../api/api';
 import { withAuthRedirect } from '../../hoc/withAuthRedirect';
 import { compose } from 'redux';
-import { withRouter } from 'react-router-dom';
-import { getPageSize, getUsers, getTotalUsersCount, getCurrentPage, getIsFetching, getIsFollowingInProgress } from '../../redux/users-selectors';
+import { getPageSize, getTotalUsersCount, getCurrentPage, getIsFetching, getIsFollowingInProgress, getUsersSuperSelector } from '../../redux/users-selectors';
 
 class UsersContainer extends React.Component {
 	componentDidMount() {
@@ -49,7 +47,7 @@ class UsersContainer extends React.Component {
 
 let mapStateToProps = (state) => {
     return {
-        users: getUsers(state),
+        users: getUsersSuperSelector(state),
         pageSize: getPageSize(state),
         totalUsersCount: getTotalUsersCount(state),
         currentPage: getCurrentPage(state),
